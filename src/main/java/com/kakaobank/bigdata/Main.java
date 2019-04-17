@@ -2,7 +2,6 @@ package com.kakaobank.bigdata;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.shell.Count;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HRegionLocation;
 import org.apache.hadoop.hbase.TableName;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String args[]) {
+    public static void main(String... args) {
         TableName tableName = TableName.valueOf("Table1");
         String cf1 = "a";
 
@@ -23,8 +22,8 @@ public class Main {
         config.addResource(new Path(path));
 
 //        Scan scan = new Scan();
-        try (Connection conneciton = ConnectionFactory.createConnection(config)) {
-            HTable table = (HTable) conneciton.getTable(tableName);
+        try (Connection connection = ConnectionFactory.createConnection(config)) {
+            HTable table = (HTable) connection.getTable(tableName);
             List<HRegionLocation> list = table.getRegionLocator().getAllRegionLocations();
             for (HRegionLocation regionLocation : list) {
                 System.out.println( regionLocation.getRegion().getEncodedName() );
